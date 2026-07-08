@@ -24,11 +24,12 @@ module.exports.Signup = async (req, res) => {
     const token = createSecretToken(user._id);
 
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: false, // true in production with HTTPS
-    });
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "None",
+});
 
-    return res.status(201).json({
+    return res.status(200).json({
       message: "User signed in successfully",
       success: true,
       user,

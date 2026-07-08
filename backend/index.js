@@ -25,8 +25,11 @@ const authRoute = require("./routes/AuthRoute");
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: [
+      "http://localhost:3000",
+      "https://zerodhaclone2.onrender.com",
+      "https://zerodhaclone.onrender.com" // if you have another frontend
+    ],
     credentials: true,
   })
 );
