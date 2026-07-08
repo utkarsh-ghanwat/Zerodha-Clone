@@ -43,6 +43,7 @@ app.use((err, req, res, next) => {
   res.status(400).json({ error: err.message });
 });
 
+
 app.use("/api", authRoute);  // auth
 
 // app.get("/addHoldings", async (req, res) => {
@@ -212,6 +213,14 @@ app.use("/api", authRoute);  // auth
 //     res.send("Done2!")
 // });
 
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
+
+app.get("/test", (req, res) => {
+  res.send("Test route working");
+});
+
 app.get('/allHoldings', async (req, res) => {
     let allHoldings = await HoldingsModel.find({});
     res.json(allHoldings);
@@ -233,9 +242,12 @@ app.post('/newOrder', async (req, res) => {
     res.send("Order saved!");
 })
 
-app.listen(3002, () => {
-    console.log("App started!")
-    mongoose.connect(uri)
-    console.log("Db connected!")
-
+app.listen(PORT, async () => {
+  try {
+    await mongoose.connect(uri);
+    console.log("DB Connected!");
+    console.log(`Server running on port ${PORT}`);
+  } catch (err) {
+    console.log(err);
+  }
 });
