@@ -5,8 +5,8 @@ const { userVerification } = require("../middlewares/Authmiddlewares");
 
 const router = require("express").Router();
 
-router.post("/signup", Signup);
-router.post('/login', Login)
-router.post("/verify", userVerification); // or router.get("/", userVerification)
+router.post("/api/signup", Signup);
+router.post('/api/login', Login)
+router.post("/api/verify", userVerification); // or router.get("/", userVerification)
 
 module.exports = router;
