@@ -291,6 +291,7 @@ const cors = require("cors");
 const { HoldingsModel } = require("./model/HoldingsModel");
 const { PositionsModel } = require("./model/PositionsModel");
 const { OrdersModel } = require("./model/OrdersModel");
+const {UsersModel} = require("./models/UsersModel");
 
 const PORT = process.env.PORT || 3002;
 const url = process.env.MONGO_URL;
