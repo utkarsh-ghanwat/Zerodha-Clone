@@ -20,6 +20,14 @@ const url = process.env.MONGO_URL;
 
 const app = express();
 
+app.get("/", (req, res) => {
+  res.send("Backend is working");
+});
+
+app.get("/test", (req, res) => {
+  res.send("Test route works");
+});
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -27,9 +35,9 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "http://localhost:3001"
+      "https://YOUR-FRONTEND.onrender.com",
     ],
-    credentials: true
+    credentials: true,
   })
 );
 
@@ -229,16 +237,35 @@ app.post("/newOrder", authMiddleware, async (req, res) => {
 
 app.post("/api/signup", async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, mobile, password } = req.body;
 
-    const user = new UsersModel({
+    // Check if all fields are provided
+    if (!username || !email || !mobile || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    // Check if user already exists
+    const existingUser = await UsersModel.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: "User already exists",
+      });
+    }
+
+    // Create user
+    const user = await UsersModel.create({
       username,
       email,
+      mobile,
       password,
     });
 
-    await user.save();
-
+    // Create JWT
     const token = jwt.sign(
       {
         id: user._id,
@@ -250,24 +277,31 @@ app.post("/api/signup", async (req, res) => {
       }
     );
 
+    // Save cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Signup Successful",
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        mobile: user.mobile,
+      },
     });
-
   } catch (err) {
-    console.error(err);
+    console.error("Signup Error:", err);
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: err.message
+      message: err.message,
     });
   }
 });
@@ -331,33 +365,68 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.get("/api/verify", (req, res) => {
+console.log("Verify route registered");
+
+// app.get("/api/verify", (req, res) => {
+//   const token = req.cookies.token;
+
+//   if (!token) {
+//     return res.json({
+//       success: false,
+//       message: "No token"
+//     });
+//   }
+
+//   jwt.verify(
+//     token,
+//     process.env.JWT_SECRET,
+//     (err, decoded) => {
+//       if (err) {
+//         return res.json({
+//           success: false,
+//           message: "Invalid token"
+//         });
+//       }
+
+//       res.json({
+//         success: true,
+//         user: decoded
+//       });
+//     }
+//   );
+// });
+
+app.get("/api/verify", async (req, res) => {
   const token = req.cookies.token;
 
   if (!token) {
     return res.json({
       success: false,
-      message: "No token"
+      message: "No token",
     });
   }
 
-  jwt.verify(
-    token,
-    process.env.JWT_SECRET,
-    (err, decoded) => {
-      if (err) {
-        return res.json({
-          success: false,
-          message: "Invalid token"
-        });
-      }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      res.json({
-        success: true,
-        user: decoded
-      });
-    }
-  );
+    console.log("Decoded Token:", decoded);
+
+    const user = await UsersModel.findById(decoded.id);
+
+    console.log("User from DB:", user);
+
+    res.json({
+      success: true,
+      username: user.username,
+      email: user.email,
+    });
+  } catch (err) {
+    console.log(err);
+    res.json({
+      success: false,
+      message: "Invalid token",
+    });
+  }
 });
 
 app.post("/api/logout", (req, res) => {
@@ -373,11 +442,28 @@ app.post("/api/logout", (req, res) => {
   });
 });
 
-mongoose
-  .connect(url)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
+// mongoose
+//   .connect(url)
+//   .then(() => console.log("MongoDB Connected"))
+//   .catch((err) => console.log(err));
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+
+mongoose
+  .connect(process.env.MONGO_URL, {
+    serverSelectionTimeoutMS: 30000,
+  })
+  .then(() => {
+    console.log("✅ MongoDB Connected");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:");
+    console.error(err);
+  });
