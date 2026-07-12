@@ -17,15 +17,15 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <GeneralContextProvider>
         <WatchList />
-      </GeneralContextProvider>     
+      </GeneralContextProvider>
       <div className="content">
         <Routes>
-          <Route path="/" element={<Summary />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/holdings" element={<Holdings />} />
-          <Route path="/positions" element={<Positions />} />
-          <Route path="/funds" element={<Funds />} />
-          <Route path="/apps" element={<Apps />} />
+          <Route index element={<Summary />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="holdings" element={<Holdings />} />
+          <Route path="positions" element={<Positions />} />
+          <Route path="funds" element={<Funds />} />
+          <Route path="apps" element={<Apps />} />
         </Routes>
       </div>
     </div>
@@ -33,3 +33,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
