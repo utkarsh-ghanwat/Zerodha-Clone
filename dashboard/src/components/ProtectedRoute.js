@@ -9,7 +9,7 @@ function ProtectedRoute({ children }) {
     const verifyUser = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3002/api/verify",
+          "https://zerodha-clone-ucl6.onrender.com/api/verify",
           {
             withCredentials: true,
           }
@@ -39,7 +39,7 @@ function ProtectedRoute({ children }) {
   }
 
   if (!auth) {
-    window.location.href = "http://localhost:3000/login";
+    window.location.href = "https://zerodha-clone-1-ezut.onrender.com/login";
     return null;
   }
 

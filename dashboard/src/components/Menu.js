@@ -146,27 +146,27 @@ const Menu = () => {
   };
 
   const handleLogout = async () => {
-    try {
-      await axios.post(
-        "http://localhost:3002/api/logout",
-        {},
-        {
-          withCredentials: true,
-        }
-      );
+  try {
+    await axios.post(
+      "https://zerodha-clone-ucl6.onrender.com/api/logout",
+      {},
+      {
+        withCredentials: true,
+      }
+    );
 
-      window.location.href = "http://localhost:3000/login";
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
-  };
+    window.location.href = "https://zerodha-clone-1-ezut.onrender.com/login";
+  } catch (err) {
+    console.error("Logout failed:", err);
+  }
+};
 
   const menuClass = "menu";
   const activeMenuClass = "menu selected";
 
   useEffect(() => {
   axios
-    .get("http://localhost:3002/api/verify", {
+    .get("https://zerodha-clone-ucl6.onrender.com/api/verify", {
       withCredentials: true,
     })
     .then((res) => {
