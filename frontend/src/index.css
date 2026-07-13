@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+.Logos {
+  margin-top: 30px !important;
+}
+
+/* .nav-link {
+  margin: 5px !important;
+  padding: 5px !important;
+  font-size: 20px;
+  font-weight: 500 !important;
+  color: 666 !important;
+} */
+
+.mb2 {
+  margin-bottom: 80px !important;
+}
+
+footer a {
+  text-decoration: none !important;
+  color: #6c757d !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+.tc {
+  margin: 15px !important;
+  padding: auto !important;
+  text-align: center !important;
+  font-weight: 500 !important;
+
+}
+
+.AboutDiv {
+  height: 300px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.AboutDiv h2 {
+  font-size: larger !important;
+}
+
+.nk {
+  border-radius: 50% !important;
+  width: 80% !important;
+}
+
+.underline {
+  text-decoration: none !important;
+}
+
+.ticket-links > a {
+  text-decoration:none  !important;
+  line-height: 2.5 !important;
+}
+
+#SupportHero{
+  background-color:rgb(56, 126, 209) ;
+  color: white;
+}
+
+#SupportHero a {
+  color: white;
+}
+
+#SupportWrapper {
+  display: flex ;
+  justify-content: space-between ;
+  margin: 0 150px;
+}
+
+#SupportWrapper input{
+  padding: 20px 50px;
+  width:100%;
+  font-size: 20px;
+  border-radius: 10px;
+  border:none;
+}
+
+#SupportHero input {
+  padding: 20px 50px;
+  width:100%;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+}
+
+#SupportWrapper ol{
+}
