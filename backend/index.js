@@ -28,9 +28,6 @@ app.get("/test", (req, res) => {
   res.send("Test route works");
 });
 
-app.use(bodyParser.json());
-app.use(cookieParser());
-
 app.use(cors({
   origin: [
     "http://localhost:3000",
@@ -38,6 +35,11 @@ app.use(cors({
   ],
   credentials: true,
 }));
+
+app.use(bodyParser.json());
+app.use(cookieParser());
+
+
 
 // app.get("/addHoldings", async (req, res) => {
 //   let tempHoldings = [
@@ -234,8 +236,11 @@ app.post("/newOrder", authMiddleware, async (req, res) => {
 
 
 app.post("/api/signup", async (req, res) => {
+   
   try {
     const { username, email, mobile, password } = req.body;
+
+    console.log("Signup Request:", req.body);
 
     // Check if all fields are provided
     if (!username || !email || !mobile || !password) {
@@ -343,8 +348,8 @@ app.post("/api/login", async (req, res) => {
     // Store token in cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
@@ -430,8 +435,8 @@ app.get("/api/verify", async (req, res) => {
 app.post("/api/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,      // Use true when deployed on HTTPS
-    sameSite: "lax",
+    secure: true,
+    sameSite: "None",
   });
 
   res.status(200).json({
