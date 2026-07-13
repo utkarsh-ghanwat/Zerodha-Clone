@@ -36,7 +36,7 @@ function Login() {
     alert(res.data.message);
 
     // Redirect to dashboard
-    window.location.href = "http://localhost:3001";
+    window.location.href = "https://zerodha-clone-2-09mf.onrender.com";;
 
   } catch (err) {
     alert(err.response?.data?.message || "Login Failed");

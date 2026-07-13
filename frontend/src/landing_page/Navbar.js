@@ -22,7 +22,7 @@ function Navbar() {
 
                 <div className="collapse navbar-collapse" id="navbarText">
                     <img
-                        src="Media/Images/logo.svg"
+                        src="/Media/Images/logo.svg"
                         alt="Logo"
                         style={{ width: "10%", marginLeft: "200px" }}
                     />
