@@ -31,15 +31,13 @@ app.get("/test", (req, res) => {
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "https://YOUR-FRONTEND.onrender.com",
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://zerodha-clone-1-ezut.onrender.com",
+  ],
+  credentials: true,
+}));
 
 // app.get("/addHoldings", async (req, res) => {
 //   let tempHoldings = [
