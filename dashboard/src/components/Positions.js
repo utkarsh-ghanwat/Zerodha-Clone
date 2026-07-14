@@ -8,12 +8,26 @@ const Positions = () => {
 
   const [allPositions, setAllPositions] = useState([]);
   
+    // useEffect(() => {
+    //   axios.get("https://zerodha-clone-ucl6.onrender.com/allPositions").then((res)=>{
+    //     console.log(res.data);
+    //     setAllPositions(res.data);
+    //   });
+    // }, []);
+
     useEffect(() => {
-      axios.get("https://zerodha-clone-ucl6.onrender.com/allPositions").then((res)=>{
-        console.log(res.data);
-        setAllPositions(res.data);
-      });
-    }, []);
+  axios
+    .get("https://zerodha-clone-ucl6.onrender.com/allPositions", {
+      withCredentials: true,
+    })
+    .then((res) => {
+      console.log(res.data);
+      setAllPositions(res.data);
+    })
+    .catch((err) => {
+      console.error(err.response?.data || err.message);
+    });
+}, []);
 
 
   return (
