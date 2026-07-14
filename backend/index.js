@@ -28,13 +28,16 @@ app.get("/test", (req, res) => {
   res.send("Test route works");
 });
 
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://zerodha-clone-1-ezut.onrender.com",
-  ],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://zerodha-clone-1-ezut.onrender.com", // Landing
+      "https://zerodha-clone-2-09mf.onrender.com", // Dashboard
+    ],
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
