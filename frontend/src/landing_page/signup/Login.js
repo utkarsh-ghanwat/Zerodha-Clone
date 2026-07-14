@@ -17,31 +17,32 @@ function Login() {
     }));
   }
 
- async function handleSubmit(e) {
-  e.preventDefault();
+  async function handleSubmit(e) {
+    e.preventDefault();
 
     try {
-    const res = await axios.post(
-      "https://zerodha-clone-ucl6.onrender.com/api/login",
-      {
-        email: form.email,
-        password: form.password,
-      },
-      {
-        withCredentials: true,
-      }
-    );
+      const res = await axios.post(
+        "https://zerodha-clone-ucl6.onrender.com/api/login",
+        {
+          email: form.email,
+          password: form.password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
 
-    alert(res.data.message);
+      alert(res.data.message);
 
-    // Redirect to dashboard
-    window.location.href = "https://zerodha-clone-2-09mf.onrender.com";;
+      // Redirect to dashboard
+      console.log("Redirecting to dashboard...");
+      window.location.href = "https://zerodha-clone-2-09mf.onrender.com";
 
-  } catch (err) {
-    alert(err.response?.data?.message || "Login Failed");
+    } catch (err) {
+      alert(err.response?.data?.message || "Login Failed");
+    }
   }
-}
 
   return (
     <div className="container py-5">

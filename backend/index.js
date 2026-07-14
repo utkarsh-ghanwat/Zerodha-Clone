@@ -1,7 +1,6 @@
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 
-
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -41,7 +40,6 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-
 
 
 // app.get("/addHoldings", async (req, res) => {
@@ -231,15 +229,21 @@ app.post("/newOrder", authMiddleware, async (req, res) => {
     mode: req.body.mode,
   });
 
-  newOrder.save();
+  // newOrder.save();
 
-  res.send("Order saved!");
+  // res.send("Order saved!");
+
+  await newOrder.save();
+
+  res.status(201).json({
+    success: true,
+    message: "Order saved!",
+  });
 });
 
 
-
 app.post("/api/signup", async (req, res) => {
-   
+
   try {
     const { username, email, mobile, password } = req.body;
 
@@ -373,34 +377,6 @@ app.post("/api/login", async (req, res) => {
 
 console.log("Verify route registered");
 
-// app.get("/api/verify", (req, res) => {
-//   const token = req.cookies.token;
-
-//   if (!token) {
-//     return res.json({
-//       success: false,
-//       message: "No token"
-//     });
-//   }
-
-//   jwt.verify(
-//     token,
-//     process.env.JWT_SECRET,
-//     (err, decoded) => {
-//       if (err) {
-//         return res.json({
-//           success: false,
-//           message: "Invalid token"
-//         });
-//       }
-
-//       res.json({
-//         success: true,
-//         user: decoded
-//       });
-//     }
-//   );
-// });
 
 app.get("/api/verify", async (req, res) => {
   const token = req.cookies.token;
@@ -447,15 +423,6 @@ app.post("/api/logout", (req, res) => {
     message: "Logged out successfully",
   });
 });
-
-// mongoose
-//   .connect(url)
-//   .then(() => console.log("MongoDB Connected"))
-//   .catch((err) => console.log(err));
-
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
 
 
 mongoose
