@@ -18,36 +18,37 @@ const Menu = () => {
   };
 
   const handleLogout = async () => {
-  console.log("Logout Started");
+    console.log("1. Logout Started");
 
-  try {
-    console.log("Calling API...");
+    try {
+      const res = await axios.post(
+        "https://zerodha-clone-ucl6.onrender.com/api/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
 
-    const res = await axios.post(
-      "https://zerodha-clone-ucl6.onrender.com/api/logout",
-      {},
-      {
-        withCredentials: true,
-      }
-    );
+      console.log("2. Logout API Success");
+      console.log(res.data);
 
-    console.log("API Response:", res.data);
+      toast.success("Logged out successfully!");
 
-    toast.success("Logged out successfully!");
+      console.log("3. Toast called");
 
-    setTimeout(() => {
-      console.log("Redirecting...");
-      window.location.href =
-        "https://zerodha-clone-1-ezut.onrender.com/login";
-    }, 2000);
+      setTimeout(() => {
+        console.log("4. Redirecting...");
+        window.location.href =
+          "https://zerodha-clone-1-ezut.onrender.com/login";
+      }, 2000);
 
-  } catch (err) {
-    console.log("Logout Error:", err);
+    } catch (err) {
+      console.log("5. Logout Error");
+      console.log(err);
 
-    toast.error("Logout failed!");
-  }
-};
-
+      toast.error("Logout failed!");
+    }
+  };
   const menuClass = "menu";
   const activeMenuClass = "menu selected";
 
@@ -137,7 +138,7 @@ const Menu = () => {
             }}
           >
             <button
-              onClick={() => alert("Button clicked")}
+              onClick={handleLogout}
               style={{
                 color: "red",
                 border: "none",
