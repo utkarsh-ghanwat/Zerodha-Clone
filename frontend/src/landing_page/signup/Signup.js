@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import { toast } from "react-toastify";
+
 function Signup() {
   const navigate = useNavigate();
 
@@ -40,8 +42,10 @@ function Signup() {
         }
       );
 
-      alert(res.data.message);
+      //Success Toast
+      toast.success(res.data.message || "Account created successfully");
 
+      // Clear the form
       setForm({
         username: "",
         email: "",
@@ -49,10 +53,16 @@ function Signup() {
         password: "",
       });
 
+
+    setTimeout(() =>{
       navigate("/login");
+    }, 2000);
+
     } catch (err) {
       console.error(err.response?.data || err);
-      alert(err.response?.data?.message || "Signup failed");
+
+      //Error toast 
+      toast.error(err.response?.data?.message || "Signup failed");
     }
   }
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-
 import { Link } from "react-router-dom";
-
 import axios from "axios";
+
+import { toast } from "react-toastify";
 
 const Menu = () => {
   const [selectedMenu, setSelectedMenu] = useState(0);
@@ -27,30 +27,45 @@ const Menu = () => {
       }
     );
 
-    window.location.href = "https://zerodha-clone-1-ezut.onrender.com/login";
+    toast.success("👋 Logged out successfully!", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "colored",
+    });
+
+    setTimeout(() => {
+      window.location.replace(
+        "https://zerodha-clone-1-ezut.onrender.com/login"
+      );
+    }, 2200);
   } catch (err) {
-    console.error("Logout failed:", err);
+    toast.error("Logout failed!", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "colored",
+    });
+
+    console.error(err);
   }
 };
-
   const menuClass = "menu";
   const activeMenuClass = "menu selected";
 
   useEffect(() => {
-  axios
-    .get("https://zerodha-clone-ucl6.onrender.com/api/verify", {
-      withCredentials: true,
-    })
-    .then((res) => {
-      console.log("Verify Response:", res.data);
+    axios
+      .get("https://zerodha-clone-ucl6.onrender.com/api/verify", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("Verify Response:", res.data);
 
-      if (res.data.success) {
-        console.log("Username:", res.data.username);
-        setUsername(res.data.username);
-      }
-    })
-    .catch((err) => console.log(err));
-}, []);
+        if (res.data.success) {
+          console.log("Username:", res.data.username);
+          setUsername(res.data.username);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
 
   return (
@@ -121,12 +136,17 @@ const Menu = () => {
               boxShadow: "0 2px 10px rgba(0,0,0,0.15)",
             }}
           >
-            <p
-              onClick={handleLogout}
-              style={{ margin: 0, color: "red" }}
+            <button
+              onClick={() => alert("Button clicked")}
+              style={{
+                color: "red",
+                border: "none",
+                background: "white",
+                cursor: "pointer",
+              }}
             >
               Logout
-            </p>
+            </button>
           </div>
         )}
       </div>

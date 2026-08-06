@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+import { toast } from "react-toastify";
+
 function Login() {
   const [form, setForm] = useState({
     email: "",
@@ -32,15 +34,17 @@ function Login() {
         }
       );
 
+      // Success Toast
+      toast.success(res.data.message || "Login Successful!");
 
-      alert(res.data.message);
-
-      // Redirect to dashboard
-      console.log("Redirecting to dashboard...");
-      window.location.href = "https://zerodha-clone-2-09mf.onrender.com";
+      // Wait 2 seconds so the user can see the toast
+      setTimeout(() => {
+        window.location.href = "https://zerodha-clone-2-09mf.onrender.com";
+      }, 2000);
 
     } catch (err) {
-      alert(err.response?.data?.message || "Login Failed");
+      // Error Toast
+      toast.error(err.response?.data?.message || "Login Failed");
     }
   }
 
@@ -105,3 +109,15 @@ function Login() {
 }
 
 export default Login;
+
+// import React from "react";
+
+// function Login() {
+//   return (
+//     <div style={{ padding: "50px" }}>
+//       <h1>Login Page Working ✅</h1>
+//     </div>
+//   );
+// }
+
+// export default Login;

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-console.log("ProtectedRoute Loaded");
-
 function ProtectedRoute({ children }) {
   const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useState(false);
 
+  // Verify user on first load
   useEffect(() => {
     const verifyUser = async () => {
       try {
@@ -17,17 +16,13 @@ function ProtectedRoute({ children }) {
           }
         );
 
-        console.log("VERIFY RESPONSE:", res.data);
-
         if (res.data.success) {
-          console.log("AUTH SUCCESS");
           setAuth(true);
         } else {
-          console.log("AUTH FAILED");
           setAuth(false);
         }
       } catch (err) {
-        console.log("VERIFY ERROR:", err.response?.data || err.message);
+        console.error("Verify Error:", err);
         setAuth(false);
       } finally {
         setLoading(false);
@@ -37,6 +32,13 @@ function ProtectedRoute({ children }) {
     verifyUser();
   }, []);
 
+  // Redirect only after verification is complete
+  useEffect(() => {
+    if (!loading && !auth) {
+      window.location.href =
+        "https://zerodha-clone-1-ezut.onrender.com/login";
+    }
+  }, [loading, auth]);
 
   if (loading) {
     return (
@@ -55,7 +57,6 @@ function ProtectedRoute({ children }) {
   }
 
   if (!auth) {
-    window.location.href = "https://zerodha-clone-1-ezut.onrender.com/login";
     return null;
   }
 
