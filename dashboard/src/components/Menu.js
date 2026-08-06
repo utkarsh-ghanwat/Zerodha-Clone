@@ -18,8 +18,12 @@ const Menu = () => {
   };
 
   const handleLogout = async () => {
+  console.log("Logout Started");
+
   try {
-    await axios.post(
+    console.log("Calling API...");
+
+    const res = await axios.post(
       "https://zerodha-clone-ucl6.onrender.com/api/logout",
       {},
       {
@@ -27,27 +31,23 @@ const Menu = () => {
       }
     );
 
-    toast.success("👋 Logged out successfully!", {
-      position: "top-right",
-      autoClose: 2000,
-      theme: "colored",
-    });
+    console.log("API Response:", res.data);
+
+    toast.success("Logged out successfully!");
 
     setTimeout(() => {
-      window.location.replace(
-        "https://zerodha-clone-1-ezut.onrender.com/login"
-      );
-    }, 2200);
-  } catch (err) {
-    toast.error("Logout failed!", {
-      position: "top-right",
-      autoClose: 2000,
-      theme: "colored",
-    });
+      console.log("Redirecting...");
+      window.location.href =
+        "https://zerodha-clone-1-ezut.onrender.com/login";
+    }, 2000);
 
-    console.error(err);
+  } catch (err) {
+    console.log("Logout Error:", err);
+
+    toast.error("Logout failed!");
   }
 };
+
   const menuClass = "menu";
   const activeMenuClass = "menu selected";
 
